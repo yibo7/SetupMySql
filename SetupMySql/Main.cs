@@ -31,7 +31,10 @@ character_set_server=utf8
         {
             InitializeComponent();
 
-            StartPosition = FormStartPosition.CenterScreen;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.MaximizeBox = false;//使最大化窗口失效
+            //下一句用来禁止对窗口大小进行拖拽
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 
             lbPath.Text = $"当前目录:{AppDomain.CurrentDomain.BaseDirectory}";
         }
@@ -84,6 +87,9 @@ character_set_server=utf8
             }
             btnSetup.Enabled = false;
             btnSetup.Text = "开始安装...";
+
+
+
             if (Tools.CheckService("MySQL"))
             {
                 bool isok = Tools.ConfirmDialog("已经安装了MYSQL,是否删除，确认将删除,结束后再重试安装！");
