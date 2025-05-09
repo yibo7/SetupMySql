@@ -64,7 +64,7 @@
             // 
             // txtPort
             // 
-            this.txtPort.Location = new System.Drawing.Point(53, 58);
+            this.txtPort.Location = new System.Drawing.Point(72, 58);
             this.txtPort.Margin = new System.Windows.Forms.Padding(2);
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(76, 21);
@@ -73,7 +73,7 @@
             // 
             // txtPass
             // 
-            this.txtPass.Location = new System.Drawing.Point(53, 99);
+            this.txtPass.Location = new System.Drawing.Point(72, 99);
             this.txtPass.Margin = new System.Windows.Forms.Padding(2);
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(236, 21);
@@ -85,9 +85,9 @@
             this.label2.Location = new System.Drawing.Point(15, 102);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
+            this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 3;
-            this.label2.Text = "密码:";
+            this.label2.Text = "root密码:";
             // 
             // lbPath
             // 

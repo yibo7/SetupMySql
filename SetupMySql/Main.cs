@@ -205,7 +205,7 @@ character_set_server=utf8
                         isruned = Tools.RunCmd(cmds);
                         if (isruned)
                         {
-                            Invoke(proce_update, 70);
+                            Invoke(proce_update, 60);
                             cmds.Clear();
                             cmds.Add(string.Format("cd {0}", sPan));
                             cmds.Add(string.Format(@"cd {0}db\bin", sPath));
@@ -215,14 +215,57 @@ character_set_server=utf8
                             isruned = Tools.RunCmd(cmds);
                             if(isruned)
                             {
-                                Invoke(proce_update, 100);
-                                MessageBox.Show("安装完成!");
-                                Action<int> action = (data) =>
+                                Thread.Sleep(2000);
+                                Invoke(proce_update, 70);                               
+                                
+                                //配置 root 用户远程访问-mysql 8.0 后需要执行以下命令
+                                cmds.Clear();
+                                cmds.Add(string.Format("cd {0}", sPan));
+                                cmds.Add(string.Format(@"cd {0}db\bin", sPath));
+                                // 创建 root@'%' 用户并设置密码
+                                cmds.Add(string.Format(@"mysql -u root -p{0} --port={1} -e ""CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '{0}';""", sPassWord, sPort));
+                                
+                                Thread.Sleep(1000);
+                                Invoke(proce_update, 80);
+                                
+                                // 授予所有权限
+                                cmds.Add(string.Format(@"mysql -u root -p{0} --port={1} -e ""GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;""", sPassWord, sPort));
+                                
+                                Thread.Sleep(1000);
+                                Invoke(proce_update, 90);
+                                
+                                // 确保使用 mysql_native_password（可选，CREATE USER 已设置）
+                                cmds.Add(string.Format(@"mysql -u root -p{0} --port={1} -e ""ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '{0}';""", sPassWord, sPort));
+                                isruned = Tools.RunCmd(cmds);
+
+                                if (isruned)
                                 {
-                                    btnSetup.Enabled = true;
-                                    btnSetup.Text = "开始安装";
-                                };
-                                Invoke(action, 1);
+                                    Invoke(proce_update, 100);
+                                    MessageBox.Show("安装完成！");
+                                    Action<int> action = (data) =>
+                                    {
+                                        btnSetup.Enabled = true;
+                                        btnSetup.Text = "开始安装";
+                                    };
+                                    Invoke(action, 1);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("配置 root 远程访问失败。");
+                                }
+
+                                //Invoke(proce_update, 100);
+                                //MessageBox.Show("安装完成!");
+                                //Action<int> action = (data) =>
+                                //{
+                                //    btnSetup.Enabled = true;
+                                //    btnSetup.Text = "开始安装";
+                                //};
+                                //Invoke(action, 1);
+                            }
+                            else
+                            {
+                                MessageBox.Show("修改密码失败！");
                             }
                         }
                     }
